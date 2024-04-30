@@ -1,18 +1,17 @@
 const Product = require("../models/Product.js");
-const { route } = require("./users.js");
-const { verifyTokenAndAdmin } = require("./verifyToken.js");
+const { verifyTokenAndAdmin,verifyTokenAndAuthorization,verifyToken} = require("./verifyToken");
 const router = require("express").Router();
+ 
+//CREATE
 
-// CREATE
-router.post("/", verifyTokenAndAdmin, async (req, res, next) => {
+router.post("/", verifyTokenAndAdmin, async (req, res) => {
   const newProduct = new Product(req.body);
+
   try {
     const savedProduct = await newProduct.save();
     res.status(200).json(savedProduct);
-    next(); // Move next() here
   } catch (err) {
     res.status(500).json(err);
-    next(err); // Call next with the error to pass control to the error-handling middleware
   }
 });
 //UPDATE 

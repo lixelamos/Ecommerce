@@ -15,11 +15,10 @@ try{
     const updatedUser= await User.findByIdAndUpdate(req.params.id,{
         $set:req.body,
     },{new:true})
-    res.status(200).json("updated user")
+    res.status(200).json(updatedUser)
 }catch(err){
         res.status(500).json(err);
     }
-    res.status(200).json(updatedUser)
 });
 
 //DELETE
@@ -31,6 +30,7 @@ router.delete("/:id",verifyTokenAndAuthorization,async(req,res)=>{
         res.status(500).json(error)
     }
 })
+//GET USER
 router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
@@ -53,6 +53,7 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
       res.status(500).json(err);
     }
   });
+//GET USER STATS
   router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
     const date = new Date();
     const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
